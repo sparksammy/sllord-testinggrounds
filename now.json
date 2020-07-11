@@ -1,6 +1,16 @@
 {
     "version": 2,
     "name": "sllordinfo",
+    "builds": [
+        { "src": "*.js", "use": "@vercel/node" }
+        { "src": "*.js", "use": "crypto" }
+        { "src": "*.js", "use": "express" }
+        { "src": "*.js", "use": "fs" }
+        { "src": "*.js", "use": "readline" }
+        { "src": "*.js", "use": "request" }
+        { "src": "*.js", "use": "showdown" }
+        { "src": "*.js", "use": "sqlite3" }
+    ]
     "routes": [
         { "src": "/(.*)", "dest": "index.js" }
     ]
