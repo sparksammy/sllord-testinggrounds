@@ -1,9 +1,6 @@
 {
     "version": 2,
     "name": "sllordinfo",
-    "builds": [
-        { "src": "index.js", "use": "@now/node" }
-    ],
     "routes": [
         { "src": "/(.*)", "dest": "index.js" }
     ]
