@@ -10,7 +10,7 @@
         { "src": "*.js", "use": "request" }
         { "src": "*.js", "use": "showdown" }
         { "src": "*.js", "use": "sqlite3" }
-    ]
+    ],
     "routes": [
         { "src": "/(.*)", "dest": "index.js" }
     ]
