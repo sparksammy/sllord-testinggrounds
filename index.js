@@ -28,7 +28,6 @@ res.status(501).send("most likely my error :-(")
 res.status(502).send("most likely my error :-(")
 res.status(503).send("most likely my error :-(")
 res.status(504).send("most likely my error :-(")
-res.status(200).send("")
 filename = 'index.md'
 head = '<head><title>SLLORD.info - Main Page.</title></head>'
 fs.readFile('index.md', 'utf8', function (err,data) {
