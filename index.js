@@ -17,6 +17,8 @@ var loggedOut = true
 var filename = ""
 var head = ""
 
+
+
 filename = 'index.md'
 head = '<head><title>SLLORD.info - Main Page.</title></head>'
 fs.readFile('index.md', 'utf8', function (err,data) {
@@ -30,7 +32,7 @@ fs.readFile('index.md', 'utf8', function (err,data) {
             text = `${data}\n`,
             body = converter.makeHtml(text);
             console.log(`Converted: ${data}\n To: ${body}\n Now serving...`)
-            res.send(`<!DOCTYPE html><html>${head}<body>${body}</body></html>`)
+            res.status(200).send(`<!DOCTYPE html><html>${head}<body>${body}</body></html>`)
             console.log(`Somebody successfully went to ${req.originalUrl}`)
         })
     }
@@ -41,42 +43,42 @@ app.get('/apiproxy', (req,res) => {
     request({
         uri: url,
     }, function(error, response, body) {
-        res.send(body)
+        res.status(200).send(body)
     });
 })
 
 app.get('/picOfMe', (req,res) => {
-    res.sendFile(pathResolver('sllord.png'))
+    res.status(200).sendFile(pathResolver('sllord.png'))
 })
 
 
 app.get('/admin', (req, res) => {
     function tryAdmin() {
         if (trys == 0) {
-            res.send("<h1>Admin panel, please login</h1>  <form action='/admin'><label for='key'>Key:</label><br><input type='text' id='key' name='key' value='Insert key here.'><br><input type='submit' value='Submit key'></form>")
+            res.status(200).send("<h1>Admin panel, please login</h1>  <form action='/admin'><label for='key'>Key:</label><br><input type='text' id='key' name='key' value='Insert key here.'><br><input type='submit' value='Submit key'></form>")
         } else{ 
-            res.send(`<h1>Admin panel, please login</h1> <p><b>Try again. Trys: ${trys}</b></p>  <form action='/admin'><label for='key'>Key:</label><br><input type='text' id='key' name='key' value='Insert key here.'><br><input type='submit' value='Submit key'></form>`)
+            res.status(200).send(`<h1>Admin panel, please login</h1> <p><b>Try again. Trys: ${trys}</b></p>  <form action='/admin'><label for='key'>Key:</label><br><input type='text' id='key' name='key' value='Insert key here.'><br><input type='submit' value='Submit key'></form>`)
         }
         trys++
     }
     console.log(req.originalUrl)
     if (req.query.loggedIn == "true") {
         if (adminsfdasfdsfds != true) {
-            res.send("<h1>GG, skid.</h1>");
+            res.status(200).send("<h1>GG, skid.</h1>");
             console.log(`Someone tried to hack into the admin panel. IsAdmin=${adminsfdasfdsfds}`)            
         } else {
-            res.send("Maybe coming soon. <hr> <a href='/admin?logout=true'>Logout</a>")
+            res.status(200).send("Maybe coming soon. <hr> <a href='/admin?logout=true'>Logout</a>")
         }
     } else if (req.query.key == "Ki58FFuU46nOH8W" ) {
         adminsfdasfdsfds = true
         trys = 0
-        res.send(`<h1>Logged in as: ${req.query.key}.</h1> <hr> <a href='/admin?loggedIn=true'>Go to panel</a>`);
+        res.status(200).send(`<h1>Logged in as: ${req.query.key}.</h1> <hr> <a href='/admin?loggedIn=true'>Go to panel</a>`);
     } else if (req.query.logout == "true") {
         loggedOut = true
         req.query.loggedIn = "false"
         adminsfdasfdsfds = false
         trys = 0
-        res.send("<h1>Logged out.</h1> <hr> <a href='/admin?loggedIn=false'>Log back in</a>");
+        res.status(200).send("<h1>Logged out.</h1> <hr> <a href='/admin?loggedIn=false'>Log back in</a>");
     } else {
         tryAdmin()
     }
