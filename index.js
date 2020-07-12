@@ -17,17 +17,6 @@ var loggedOut = true
 var filename = ""
 var head = ""
 
-
-res.status(400).send("client error :-(")
-res.status(401).send("client error :-(")
-res.status(402).send("client error :-(")
-res.status(403).send("client error :-(")
-res.status(404).send("user error :-(")
-res.status(500).send("most likely my error :-(")
-res.status(501).send("most likely my error :-(")
-res.status(502).send("most likely my error :-(")
-res.status(503).send("most likely my error :-(")
-res.status(504).send("most likely my error :-(")
 filename = 'index.md'
 head = '<head><title>SLLORD.info - Main Page.</title></head>'
 fs.readFile('index.md', 'utf8', function (err,data) {
@@ -37,7 +26,7 @@ fs.readFile('index.md', 'utf8', function (err,data) {
     } else {
         app.get('/', (req, res) => { 
             console.log(`Converting markdown: \n ${data}\n`)
-            converter = new showdown.Converter(),
+            var converter = new showdown.Converter(),
             text = `${data}\n`,
             body = converter.makeHtml(text);
             console.log(`Converted: ${data}\n To: ${body}\n Now serving...`)
