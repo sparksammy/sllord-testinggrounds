@@ -1,2 +1,2 @@
 # sllord.info
-SLLORD.info official site. A Node.JS showcase and a Portfolio
+SLLORD.info official testing grounds. A Node.JS showcase.
