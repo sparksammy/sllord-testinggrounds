@@ -18,6 +18,25 @@ var loggedOut = true
 var filename = ""
 var head = ""
 
+var crypto = require('crypto');
+var algorithm = 'aes-256-ctr';
+var cpass = "SUPER";
+var cpass2 = "NICE TRY!";
+
+function encrypt(text, cryptPass){
+  var cipher = crypto.createCipher(algorithm,cryptPass)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
+ 
+function decrypt(text, cryptPass){
+  var decipher = crypto.createDecipher(algorithm,cryptPass)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
+
 filename = 'index.md'
 head = '<head><title>SLLORD.info - Main Page.</title></head>'
 fs.readFile('index.md', 'utf8', function (err,data) {
@@ -50,7 +69,7 @@ app.get('/picOfMe', (req,res) => {
     res.status(200).sendFile(pathResolver('sllord.png'))
 })
 
-db.set('userInfo', {usernames: ['sparksammy'], passwords: ['Ki58FFuU46nOH8W']})
+db.set('userInfo', {usernames: ['sparksammy'], passwords: ['3d8cab9a2b987ca2136a7e504fa67d3ae17a4502620da64d351ff55d450f']})
 var users = db.get('userInfo.usernames')
 var passwds = db.get('userInfo.passwords')
 var adminLoginHTML = "<h1>Panel, please login</h1>  <form action='/login'><label for='uname'>Username:</label><br><input type='text' id='uname' name='uname' value=''><br>Key:</label><br><input type='text' id='key' name='key' value=''><br><input type='submit' value='Submit login'></form><a href='/signup'>Not a member? Sign up.</a>"
@@ -76,7 +95,7 @@ app.get('/login', (req, res) => {
         } else {
             res.status(200).send("Maybe coming soon. <hr> <a href='/login?logout=true'>Logout</a>")
         }
-    } else if (users.includes(req.query.uname) && passwds.includes(req.query.key) && users.indexOf(req.query.uname) == passwds.indexOf(req.query.key, users.indexOf(req.query.uname))) { //all we need to do now is to make sure key is at same position as uname
+    } else if (users.includes(req.query.uname) && passwds.includes(encrypt(encrypt(req.query.key, cpass), cpass2)) && users.indexOf(req.query.uname) == passwds.indexOf(encrypt(encrypt(req.query.key, cpass), cpass2), users.indexOf(req.query.uname))) { //all we need to do now is to make sure key is at same position as uname
         
         adminsfdasfdsfds = true
         trys = 0
@@ -95,7 +114,7 @@ app.get('/login', (req, res) => {
 app.get('/signup', (req, res) => {
     if (req.query.uname != undefined && req.query.key != undefined) {
         db.push('userInfo.usernames', req.query.uname)
-        db.push('userInfo.passwords', req.query.key)
+        db.push('userInfo.passwords', encrypt(encrypt(req.query.key, cpass), cpass2))
         res.status(200).send(`Registered as ${req.query.uname}, please login.`);
     } else {
         res.status(200).send(adminRegisterHTML);
