@@ -10,6 +10,7 @@
         "crypto": "^1.0.1",
         "express": "^4.17.1",
         "fs": "0.0.1-security",
+        "public-ip": "^4.0.2",
         "quick.db": "^7.1.1",
         "readline": "^1.3.0",
         "request": "^2.88.2",
